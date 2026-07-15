@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Weather App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="glow-sphere glow-1"></div>
+    <div class="glow-sphere glow-2"></div>
+
+    <div class="weather-card">
+        <div class="search-container">
+            <input type="text" id="city-input" placeholder="Search city..." autocomplete="off">
+            <button id="search-btn" aria-label="Search">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="search-icon">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+            </button>
+        </div>
+        
+        <div id="weather-info">
+            <div class="weather-icon-box">
+                <div class="animated-sun"></div>
+                <div class="animated-cloud"></div>
+            </div>
+            
+            <h2 id="city-name">Delhi</h2>
+            <h1 id="temperature">25<sup>°C</sup></h1>
+            <p id="description">Clear Sky</p>
+        </div>
+
+        <hr class="divider">
+
+        <div class="weather-details-grid">
+            <div class="detail-card">
+                <span class="detail-title">Humidity</span>
+                <span class="detail-value" id="humidity-val">64%</span>
+            </div>
+            <div class="detail-card">
+                <span class="detail-title">Wind Speed</span>
+                <span class="detail-value" id="wind-val">12 km/h</span>
+            </div>
+            <div class="detail-card">
+                <span class="detail-title">Visibility</span>
+                <span class="detail-value" id="visibility-val">6 km</span>
+            </div>
+            <div class="detail-card">
+                <span class="detail-title">Pressure</span>
+                <span class="detail-value" id="pressure-val">1012 hPa</span>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

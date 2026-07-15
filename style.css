@@ -1,0 +1,334 @@
+ /* ==========================================================================
+   1. CUSTOM VARIABLES & RESET
+   ========================================================================== */
+:root {
+    --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    --card-bg: rgba(255, 255, 255, 0.07);
+    --card-border: rgba(255, 255, 255, 0.15);
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.7);
+    --accent-color: #00f2fe;
+    --accent-glow: rgba(0, 242, 254, 0.4);
+    --transition-smooth: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: var(--bg-gradient);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    font-family: system-ui, -apple-system, sans-serif;
+    position: relative;
+}
+
+/* ==========================================================================
+   2. BACKGROUND ORBS/GLOW DECORATIONS (Abstract shapes for depth)
+   ========================================================================== */
+.glow-sphere {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    z-index: 1;
+    pointer-events: none;
+    animation: float-bg 12s ease-in-out infinite alternate;
+}
+
+.glow-1 {
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, #4f46e5, #00f2fe);
+    top: 15%;
+    left: 20%;
+}
+
+.glow-2 {
+    width: 350px;
+    height: 350px;
+    background: radial-gradient(circle, #00c6ff, #0072ff);
+    bottom: 10%;
+    right: 15%;
+    animation-delay: -6s; /* stagger animation */
+}
+
+/* ==========================================================================
+   3. THE GLASS WEATHER CARD
+   ========================================================================== */
+.weather-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px); 
+    border: 1px solid var(--card-border);
+    border-radius: 28px;
+    padding: 35px 30px;
+    width: 90%;
+    max-width: 420px;
+    text-align: center;
+    color: var(--text-primary);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    z-index: 10;
+    position: relative;
+    transition: var(--transition-smooth);
+}
+
+/* Pseudo-element light-reflection effect on top border */
+.weather-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 28px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%);
+    pointer-events: none;
+}
+
+.weather-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 35px 60px -10px rgba(0, 242, 254, 0.15), 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+    border-color: rgba(255, 255, 255, 0.25);
+}
+
+/* ==========================================================================
+   4. ADVANCED SEARCH CONTROLS
+   ========================================================================== */
+.search-container {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1.5px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50px;
+    padding: 6px 6px 6px 18px;
+    margin-bottom: 30px;
+    transition: var(--transition-smooth);
+}
+
+.search-container:focus-within {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 15px var(--accent-glow);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+#city-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+#city-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+#search-btn {
+    background: var(--text-primary);
+    border: none;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+#search-btn:hover {
+    background: var(--accent-color);
+    transform: rotate(15deg) scale(1.1);
+}
+
+.search-icon {
+    width: 18px;
+    height: 18px;
+    stroke: #0f172a;
+    transition: var(--transition-smooth);
+}
+
+#search-btn:hover .search-icon {
+    stroke: #ffffff;
+}
+
+/* ==========================================================================
+   5. WEATHER DISPLAY SYSTEM (With Animation Elements)
+   ========================================================================== */
+.weather-icon-box {
+    height: 120px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+/* Sun animation element */
+.animated-sun {
+    width: 50px;
+    height: 50px;
+    background: radial-gradient(circle, #ffe600 30%, #ff5e00 100%);
+    border-radius: 50%;
+    box-shadow: 0 0 30px #ff5e00;
+    position: absolute;
+    top: 30px;
+    left: 45%;
+    transform: translateX(-50%);
+    animation: sun-pulse 4s ease-in-out infinite alternate;
+}
+
+/* Cloud overlay animation element */
+.animated-cloud {
+    width: 80px;
+    height: 35px;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 20px;
+    position: absolute;
+    bottom: 30px;
+    right: 35%;
+    filter: drop-shadow(0 8px 15px rgba(0,0,0,0.2));
+    animation: cloud-float 6s ease-in-out infinite alternate;
+}
+
+.animated-cloud::before,
+.animated-cloud::after {
+    content: '';
+    position: absolute;
+    background: inherit;
+    border-radius: 50%;
+}
+
+.animated-cloud::before {
+    width: 35px;
+    height: 35px;
+    top: -15px;
+    left: 15px;
+}
+
+.animated-cloud::after {
+    width: 45px;
+    height: 45px;
+    top: -22px;
+    right: 15px;
+}
+
+/* Text details styling */
+#city-name {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 5px;
+    text-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+#temperature {
+    font-size: 4.5rem;
+    font-weight: 800;
+    letter-spacing: -2px;
+    margin-bottom: 10px;
+    background: linear-gradient(to bottom, #ffffff, #cbd5e1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1;
+}
+
+#temperature sup {
+    font-size: 2.2rem;
+    font-weight: 400;
+    top: -20px;
+}
+
+#description {
+    font-size: 1.05rem;
+    text-transform: capitalize;
+    color: var(--accent-color);
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+.divider {
+    border: none;
+    height: 1px;
+    background: linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,0.15) 50%, rgba(255,255,255,0));
+    margin: 25px 0;
+}
+
+/* ==========================================================================
+   6. GRID LAYOUT FOR DETAILS (Basic to Advanced styling combo)
+   ========================================================================== */
+.weather-details-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Responsive grid layout */
+    gap: 15px;
+}
+
+.detail-card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 16px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: var(--transition-smooth);
+}
+
+.detail-card:hover {
+    background: rgba(255, 255, 255, 0.09);
+    border-color: rgba(0, 242, 254, 0.2);
+    transform: scale(1.05);
+}
+
+.detail-title {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--text-secondary);
+    margin-bottom: 5px;
+}
+
+.detail-value {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+/* ==========================================================================
+   7. ANIMATIONS (@keyframes)
+   ========================================================================== */
+@keyframes float-bg {
+    0% { transform: translateY(0px) rotate(0deg); }
+    100% { transform: translateY(20px) rotate(15deg); }
+}
+
+@keyframes sun-pulse {
+    0% { transform: scale(1) translateX(-50%); opacity: 0.95; }
+    100% { transform: scale(1.1) translateX(-50%); opacity: 1; }
+}
+
+@keyframes cloud-float {
+    0% { transform: translateX(0px); }
+    100% { transform: translateX(10px) translateY(-5px); }
+}
+
+/* ==========================================================================
+   8. Responsive Design
+   ========================================================================== */
+@media (max-width: 480px) {
+    .weather-card {
+        padding: 25px 20px;
+    }
+    
+    #temperature {
+        font-size: 3.5rem;
+    }
+}
